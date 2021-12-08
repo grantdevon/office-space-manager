@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-item>
+      <ion-icon name="arrow-back-outline" (click)="goBack()"></ion-icon>
+      <ion-title class="ion-text-center">New Office</ion-title>
+    </ion-item>
+    
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+<ion-item style="padding: 10px;">
+  <ion-input [(ngModel)]="officeName" placeholder="Office Name"></ion-input>
+</ion-item>
+
+<ion-item style="padding: 10px;">
+  <ion-input [(ngModel)]="officeAddress" placeholder="Physical Address"></ion-input>
+</ion-item>
+
+<ion-item style="padding: 10px;">
+  <ion-input [(ngModel)]="officeEmail" placeholder="Email Address"></ion-input>
+</ion-item>
+
+<ion-item style="padding: 10px;">
+  <ion-input [(ngModel)]="officePhoneNumber" placeholder="Phone Number"></ion-input>
+</ion-item>
+
+<ion-item style="padding: 10px;">
+  <ion-input [(ngModel)]="officeCapacity" placeholder="Maximum capacity"></ion-input>
+</ion-item>
+
+  
+
+<ion-grid>
+  <ion-row>
+    <ion-col class="ion-text-center">
+      <ion-button (click)="addNewOffice()"  size="medium" shape="round">ADD OFFICE</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+</ion-content>

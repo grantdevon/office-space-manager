@@ -15,6 +15,14 @@ const routes: Routes = [
     path: 'view-page',
     loadChildren: () => import('./view-page/view-page.module').then( m => m.ViewPagePageModule)
   },
+  {
+    path: 'new-office',
+    loadChildren: () => import('./new-office/new-office.module').then( m => m.NewOfficePageModule)
+  },
+  {
+    path: 'edit-office',
+    loadChildren: () => import('./edit-office/edit-office.module').then( m => m.EditOfficePageModule)
+  },
 ];
 
 @NgModule({
