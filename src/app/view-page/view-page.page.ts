@@ -3,6 +3,9 @@ import { NavigationExtras, Router } from '@angular/router';
 import { DatabaseServiceService } from '../database-service.service';
 import { AlertController } from '@ionic/angular';
 import { SwiperComponent } from 'swiper/angular';
+import { PopoverController } from '@ionic/angular';
+import { AddemployeecomponentComponent } from 'src/app/addemployeecomponent/addemployeecomponent.component'
+
 
 
 @Component({
@@ -26,14 +29,23 @@ export class ViewPagePage implements OnInit {
   cardColour: string
   avatar: "assets/avatarIcons/1.png"
   addEmployeeContent: boolean
+  isSlideOpen: boolean
 
+  mySlideOptions = {
+    initialSlide: 0,
+    slidesPerView: 1,
+    // width: 200
+  };
   
 
   constructor(private router:Router,
     private dbService: DatabaseServiceService,
-    public alertController: AlertController) { }
+    public alertController: AlertController,
+    public popoverController: PopoverController
+    ) { }
 
   ngOnInit() {
+    this.isSlideOpen = false
     if (this.swiper) {
       this.swiper.updateSwiper({})
     }
@@ -51,10 +63,18 @@ export class ViewPagePage implements OnInit {
     this.cardColour = this.navigationExtras["color"]
   }
 
-  ngAfterViewInit(): void {
-    if (this.swiper) {
-      this.swiper.updateSwiper({})
-    }    //Swiper instance will be displayed in console
+
+  async presentPopover(ev: any) {
+    const popover = await this.popoverController.create({
+      component: AddemployeecomponentComponent,
+      cssClass: 'my-custom-class',
+      event: ev,
+      translucent: true
+    });
+    await popover.present();
+  
+    const { role } = await popover.onDidDismiss();
+    console.log('onDidDismiss resolved with role', role);
   }
 
   editOffice(){
@@ -116,9 +136,15 @@ export class ViewPagePage implements OnInit {
       avatar: ""
     }
 
+    console.log(this.isSlideOpen);
+    this.isSlideOpen = true
+
   
 
 
+  }
+  eh() {
+    this.isSlideOpen = false
   }
 
   // async chooseeAvatar(){
