@@ -1,8 +1,8 @@
 <ion-header>
   <ion-toolbar>
-    <ion-item>
+    <ion-item lines="none">
       <ion-icon name="arrow-back-outline" (click)="goBack()"></ion-icon>
-      <ion-title class="ion-text-center">New Office</ion-title>
+      <ion-title class="ion-text-center">Edit Office</ion-title>
     </ion-item>
     
   </ion-toolbar>
@@ -33,6 +33,28 @@
   
 
 <ion-grid>
+
+  <ion-row>    
+    <h1>Office Colour</h1>
+  </ion-row>
+
+  <ion-row>
+    <ion-col *ngFor="let color of colors">
+<ion-fab-button
+       *ngIf="color !== selectedColor"
+       (click)="selected(color)"
+       size="small"
+       [style.--background]="color"
+     ></ion-fab-button>
+     <ion-fab-button
+       *ngIf="color === selectedColor"
+       (click)="selected(color)"
+       size="small"
+       [style.--background]="color"
+       class="selected"
+     ></ion-fab-button>
+   </ion-col>    
+</ion-row>
   <ion-row>
     <ion-col class="ion-text-center">
       <ion-button (click)="editOffice()"  size="medium" shape="round">UPDATE OFFICE</ion-button>
@@ -43,5 +65,7 @@
       <ion-button (click)="deleteOffice()" fill="outline" size="medium" shape="round">DELETE OFFICE</ion-button>
     </ion-col>
   </ion-row>
+
+  
 </ion-grid>
 </ion-content>

@@ -14,6 +14,10 @@ export class EditOfficePage implements OnInit {
   officeEmail: string
   officePhoneNumber: string
   officeCapacity: string
+  colors = ['#FFBE0B', '#FF9B71', '#FB5607', '#97512C', '#DBBADD', '#FF006E',
+  '#A9F0D1', '#00B402', '#489DDA', '#0072E8', '#8338EC'];
+  selectedColor = '';
+
 
   navigationExtras:NavigationExtras;
 
@@ -25,7 +29,6 @@ export class EditOfficePage implements OnInit {
 
   ngOnInit() {
     this.navigationExtras = this.router.getCurrentNavigation().extras.state.data;
-    console.log(this.navigationExtras);
     
     this.officeName = this.navigationExtras["name"]
     this.officeAddress = this.navigationExtras["address"]
@@ -40,7 +43,9 @@ export class EditOfficePage implements OnInit {
       this.officeAddress !=undefined &&
       this.officeEmail !=undefined && 
       this.officePhoneNumber !=undefined &&
-      this.officeCapacity !=undefined){
+      this.officeCapacity !=undefined &&
+      this.selectedColor != undefined && 
+      this.selectedColor != ''){
 
         let data = {
           id: this.navigationExtras["id"],
@@ -50,6 +55,7 @@ export class EditOfficePage implements OnInit {
           capacity: this.officeCapacity,
           address: this.officeAddress,
           isCollapsed: true,
+          color: this.selectedColor
         }
 
         this.dbService.update(this.navigationExtras["id"], data)
@@ -60,6 +66,10 @@ export class EditOfficePage implements OnInit {
         console.log("enter values");
         
       }
+  }
+
+  selected(color) {
+    this.selectedColor = color; 
   }
 
   goBack(){

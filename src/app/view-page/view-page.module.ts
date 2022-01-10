@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { ViewPagePageRoutingModule } from './view-page-routing.module';
 
 import { ViewPagePage } from './view-page.page';
+import { SwiperModule } from 'swiper/angular';
 
 @NgModule({
   imports: [
+    SwiperModule,
     CommonModule,
     FormsModule,
     IonicModule,
-    ViewPagePageRoutingModule
+    ViewPagePageRoutingModule,
   ],
   declarations: [ViewPagePage]
 })

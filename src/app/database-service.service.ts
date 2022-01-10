@@ -17,14 +17,40 @@ export class DatabaseServiceService {
     private router:Router,) { }
 
   create(office) {
-    return this.ngFirestore.collection('office').add(office);
+    return this.ngFirestore.collection('office').add(office).then((res => {
+      console.log(res.id);
+      this.createEmployee(res.id)
+    }));
+  }
+
+  createEmployee(id){
+    return this.ngFirestore.collection('employees').doc(id)
+  }
+
+  addEmployee(employee, id){
+    return this.ngFirestore.collection('employees').doc(id).set(employee).then(ref => {
+      console.log(ref);
+      
+    }).catch(err => {
+      console.log(err);
+      
+    });
+  }
+
+  getEmployees(id){
+    return new Promise<any>((resolve, reject) => {
+      this.ngFirestore.collection("employees").doc(id).get().toPromise().then(res => {
+        resolve(res.data())
+      })
+    })
+    
   }
 
   getTasks() {
     return this.ngFirestore.collection('office').snapshotChanges();
   }
 
-  gett(){
+  get(){
     return this.ngFirestore.collection("office").get().toPromise().then(data => {
       console.log(data.size);
       

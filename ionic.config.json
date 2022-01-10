@@ -1,5 +1,7 @@
 {
   "name": "office-space-manager",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

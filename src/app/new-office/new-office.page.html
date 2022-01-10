@@ -19,11 +19,11 @@
 </ion-item>
 
 <ion-item style="padding: 10px;">
-  <ion-input [(ngModel)]="officeEmail" placeholder="Email Address"></ion-input>
+  <ion-input [(ngModel)]="officeEmail" placeholder="Email Address" type="email"></ion-input>
 </ion-item>
 
 <ion-item style="padding: 10px;">
-  <ion-input [(ngModel)]="officePhoneNumber" placeholder="Phone Number"></ion-input>
+  <ion-input [(ngModel)]="officePhoneNumber" placeholder="Phone Number" type="number"></ion-input>
 </ion-item>
 
 <ion-item style="padding: 10px;">
@@ -33,6 +33,27 @@
   
 
 <ion-grid>
+  <ion-row>    
+    <h1>Office Colour</h1>
+  </ion-row>
+
+  <ion-row>
+    <ion-col *ngFor="let color of colors">
+<ion-fab-button
+       *ngIf="color !== selectedColor"
+       (click)="selected(color)"
+       size="small"
+       [style.--background]="color"
+     ></ion-fab-button>
+     <ion-fab-button
+       *ngIf="color === selectedColor"
+       (click)="selected(color)"
+       size="small"
+       [style.--background]="color"
+       class="selected"
+     ></ion-fab-button>
+   </ion-col>    
+</ion-row>
   <ion-row>
     <ion-col class="ion-text-center">
       <ion-button (click)="addNewOffice()"  size="medium" shape="round">ADD OFFICE</ion-button>

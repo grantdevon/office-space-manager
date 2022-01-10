@@ -9,8 +9,7 @@
 
 
 <ion-content >
-  
-    <ion-card *ngFor="let office of searchItems" style="border-left: 5px solid green;">
+  <ion-card *ngFor="let office of searchItems" [style.border-left]="'5px solid ' + office.color">
       <ion-item>
         <ion-card-title (click)="viewOffice(office)">{{office.name}} </ion-card-title>
         <ion-icon (click)="editOffice(office)" slot="end" name="create-outline"></ion-icon>   
@@ -49,6 +48,7 @@
         </ion-item>
       </ion-list>
     </ion-card>
+
 
 
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">

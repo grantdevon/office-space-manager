@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { DatabaseServiceService } from '../database-service.service';
 
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -20,7 +21,7 @@ export class HomePage {
   }
 
   ngOnInit(){
-    this.dbService.gett()
+    this.dbService.get()
     this.searchItems = []
     this.data = []
       this.dbService.getTasks().subscribe(res => {
@@ -31,8 +32,6 @@ export class HomePage {
         }
       })
 
-      console.log(this.data)
-      console.log(this.searchItems);
       let items = []
       for (let i in this.data){
        
@@ -40,16 +39,15 @@ export class HomePage {
         items.push(this.data[i]["data"])
           this.searchItems = items
       }
+      console.log(items)
 
-      console.log(this.searchItems);
-
-      
     })
-    
   }
 
+
   ionViewDidEnter(){
-    
+    this.ngOnInit()
+
   }
 
 
@@ -62,6 +60,7 @@ export class HomePage {
   }
 
   viewOffice(data){
+    console.log(data)
     let navigationExtras: NavigationExtras = {
       state: {
         data

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 import { DatabaseServiceService } from '../database-service.service';
 
 @Component({
@@ -13,9 +14,16 @@ export class NewOfficePage implements OnInit {
   officeEmail: string
   officePhoneNumber: string
   officeCapacity: string
+  colors = ['#FFBE0B', '#FF9B71', '#FB5607', '#97512C', '#DBBADD', '#FF006E',
+            '#A9F0D1', '#00B402', '#489DDA', '#0072E8', '#8338EC'];
+
+  selectedColor = ''
+
+
 
   constructor(private router: Router,
-    private dbService: DatabaseServiceService) { }
+    private dbService: DatabaseServiceService,
+    private alert: AlertController) { }
 
   ngOnInit() {
   }
@@ -29,7 +37,9 @@ export class NewOfficePage implements OnInit {
       this.officeAddress !=undefined &&
       this.officeEmail !=undefined && 
       this.officePhoneNumber !=undefined &&
-      this.officeCapacity !=undefined){
+      this.officeCapacity !=undefined && 
+      this.selectedColor != undefined && 
+      this.selectedColor != '') {
 
         let data = {
           name: this.officeName,
@@ -38,7 +48,8 @@ export class NewOfficePage implements OnInit {
           capacity: this.officeCapacity,
           address: this.officeAddress,
           isCollapsed: true,
-          employees: []
+          employees: [],
+          color: this.selectedColor
         }
 
         this.dbService.create(data)
@@ -46,9 +57,23 @@ export class NewOfficePage implements OnInit {
         this.router.navigate(["../home"])
 
       } else {
-        console.log("enter values");
+        this.presentAlert("Please make sure all values are entered and an office colour is selected")        
         
       }
+  }
+
+  selected(color) {
+    this.selectedColor = color; 
+  }
+
+  async presentAlert(msg){
+    const alert = await this.alert.create({
+      header: "Alert!!!",
+      message: msg,
+      buttons: ['OK']
+    })
+
+    await alert.present()
   }
 
 
