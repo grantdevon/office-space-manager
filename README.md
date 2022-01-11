@@ -6,6 +6,7 @@ make sure Ionic CLI is installed. Then run run `npm i` after that run `ionic ser
 
 # Demo URL
 https://office-space-manager-6d980.web.app
+
 To have a mobile view in chrome - https://www.browserstack.com/guide/view-mobile-version-of-website-on-chrome
 
 
