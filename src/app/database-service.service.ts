@@ -32,16 +32,10 @@ export class DatabaseServiceService {
     
   }
 
-  getTasks() {
+  getOffices() {
     return this.ngFirestore.collection('office').snapshotChanges();
   }
 
-  get(){
-    return this.ngFirestore.collection("office").get().toPromise().then(data => {
-      console.log(data.size);
-      
-    })
-  }
 
   addEmployee(id, data){
     return this.ngFirestore.collection("office").doc(id).update({employees: arrayUnion(data)})

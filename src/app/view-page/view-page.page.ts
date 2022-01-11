@@ -123,9 +123,7 @@ export class ViewPagePage implements OnInit {
     if (val && val.trim() != "") {
       this.searchItems = this.searchItems.filter(item => {
         return item.name.concat(' ', item.surname).toLowerCase().indexOf(val.toLowerCase()) > -1
-      })
-      console.log(this.searchItems);
-      
+      })      
     }
   }
 

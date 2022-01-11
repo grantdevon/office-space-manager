@@ -21,10 +21,9 @@ export class HomePage {
   }
 
   ngOnInit(){
-    this.dbService.get()
     this.searchItems = []
     this.data = []
-      this.dbService.getTasks().subscribe(res => {
+      this.dbService.getOffices().subscribe(res => {
       this.data = res.map((t) => {
         return {
           id: t.payload.doc.id,

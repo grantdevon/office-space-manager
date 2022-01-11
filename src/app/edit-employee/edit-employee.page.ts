@@ -27,15 +27,10 @@ export class EditEmployeePage implements OnInit {
 
   ngOnInit() {
     
-    
     this.id = this.data["id"]
     this.name = this.data["name"]
     this.surname = this.data["surname"]
     this.avatar = this.data["avatar"]
-    
-
-    console.log(this.name);
-
     
   }
 
