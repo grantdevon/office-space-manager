@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
+import { arrayUnion, arrayRemove } from "firebase/firestore";
+
 
 export class OFFICE {
   $key: string;
@@ -18,28 +20,12 @@ export class DatabaseServiceService {
 
   create(office) {
     return this.ngFirestore.collection('office').add(office).then((res => {
-      console.log(res.id);
-      this.createEmployee(res.id)
     }));
   }
 
-  createEmployee(id){
-    return this.ngFirestore.collection('employees').doc(id)
-  }
-
-  addEmployee(employee, id){
-    return this.ngFirestore.collection('employees').doc(id).set(employee).then(ref => {
-      console.log(ref);
-      
-    }).catch(err => {
-      console.log(err);
-      
-    });
-  }
-
-  getEmployees(id){
+  getEmployees(id){    
     return new Promise<any>((resolve, reject) => {
-      this.ngFirestore.collection("employees").doc(id).get().toPromise().then(res => {
+      this.ngFirestore.collection("office").doc(id).get().toPromise().then(res => {        
         resolve(res.data())
       })
     })
@@ -55,6 +41,16 @@ export class DatabaseServiceService {
       console.log(data.size);
       
     })
+  }
+
+  addEmployee(id, data){
+    return this.ngFirestore.collection("office").doc(id).update({employees: arrayUnion(data)})
+
+  }
+
+  removeEmployee(id, data){
+    return this.ngFirestore.collection("office").doc(id).update({employees: arrayRemove(data)})
+
   }
   
   

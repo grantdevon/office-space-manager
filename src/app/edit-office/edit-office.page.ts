@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 import { DatabaseServiceService } from '../database-service.service';
 
 @Component({
@@ -24,7 +25,8 @@ export class EditOfficePage implements OnInit {
 
   constructor(
     private router:Router,
-    private dbService: DatabaseServiceService
+    private dbService: DatabaseServiceService,
+    private alert: AlertController
   ) { }
 
   ngOnInit() {
@@ -64,7 +66,8 @@ export class EditOfficePage implements OnInit {
 
       } else {
         console.log("enter values");
-        
+        this.presentAlert("Please make sure all values are entered and an office colour is selected")        
+
       }
   }
 
@@ -78,5 +81,15 @@ export class EditOfficePage implements OnInit {
 
   deleteOffice(){
     this.dbService.delete(this.navigationExtras["id"])
+  }
+
+  async presentAlert(msg){
+    const alert = await this.alert.create({
+      header: "Alert!!!",
+      message: msg,
+      buttons: ['OK']
+    })
+
+    await alert.present()
   }
 }

@@ -12,7 +12,7 @@ export class NewOfficePage implements OnInit {
   officeName: string
   officeAddress: string
   officeEmail: string
-  officePhoneNumber: string
+  officePhoneNumber: string 
   officeCapacity: string
   colors = ['#FFBE0B', '#FF9B71', '#FB5607', '#97512C', '#DBBADD', '#FF006E',
             '#A9F0D1', '#00B402', '#489DDA', '#0072E8', '#8338EC'];

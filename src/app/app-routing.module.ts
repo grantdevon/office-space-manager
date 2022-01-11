@@ -23,6 +23,14 @@ const routes: Routes = [
     path: 'edit-office',
     loadChildren: () => import('./edit-office/edit-office.module').then( m => m.EditOfficePageModule)
   },
+  {
+    path: 'new-employee',
+    loadChildren: () => import('./new-employee/new-employee.module').then( m => m.NewEmployeePageModule)
+  },
+  {
+    path: 'edit-employee',
+    loadChildren: () => import('./edit-employee/edit-employee.module').then( m => m.EditEmployeePageModule)
+  },
 ];
 
 @NgModule({

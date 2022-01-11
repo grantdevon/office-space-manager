@@ -4,8 +4,8 @@ import { DatabaseServiceService } from '../database-service.service';
 import { AlertController } from '@ionic/angular';
 import { SwiperComponent } from 'swiper/angular';
 import { PopoverController } from '@ionic/angular';
-import { AddemployeecomponentComponent } from 'src/app/addemployeecomponent/addemployeecomponent.component'
-
+import { NewEmployeePage } from 'src/app/new-employee/new-employee.page'
+import { EditEmployeePage } from 'src/app/edit-employee/edit-employee.page'
 
 
 @Component({
@@ -16,6 +16,7 @@ import { AddemployeecomponentComponent } from 'src/app/addemployeecomponent/adde
 })
 export class ViewPagePage implements OnInit {
   @ViewChild('swiper') swiper: SwiperComponent
+  id: string
   navigationExtras:NavigationExtras;
   officeName: string
   officeAddress: string
@@ -27,16 +28,11 @@ export class ViewPagePage implements OnInit {
   name: string;
   surname: string;
   cardColour: string
-  avatar: "assets/avatarIcons/1.png"
   addEmployeeContent: boolean
-  isSlideOpen: boolean
-
-  mySlideOptions = {
-    initialSlide: 0,
-    slidesPerView: 1,
-    // width: 200
-  };
-  
+  employeeOptionsPopUp: boolean
+  currentEmpData : {}
+  empDeleteCheck: boolean
+  peopleInOffice: string
 
   constructor(private router:Router,
     private dbService: DatabaseServiceService,
@@ -45,13 +41,10 @@ export class ViewPagePage implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.isSlideOpen = false
-    if (this.swiper) {
-      this.swiper.updateSwiper({})
-    }
+    this.employeeOptionsPopUp = false
     this.isCollapsed = true
     this.navigationExtras = this.router.getCurrentNavigation().extras.state.data;
-    this.navigationExtras["employees"] = [{name: "jone", surname: "eh"}]
+    this.id = this.navigationExtras["id"]
 
     this.searchItems = this.navigationExtras["employees"]
     
@@ -61,20 +54,44 @@ export class ViewPagePage implements OnInit {
     this.officeCapacity = this.navigationExtras["capacity"]
     this.officeEmail = this.navigationExtras["email"]
     this.cardColour = this.navigationExtras["color"]
+    this.getEmployees()
+    
+    this.peopleInOffice = this.searchItems.length
+    
   }
 
+  getEmployees(){
+    let empData = []
+    this.dbService.getEmployees(this.id).then(res => {
+      empData = res.employees
+      this.searchItems = empData
+      this.peopleInOffice = this.searchItems.length
+    })
+    
+  }
 
-  async presentPopover(ev: any) {
+  async presentPopover(ev: any, id) {
+    id = this.id
     const popover = await this.popoverController.create({
-      component: AddemployeecomponentComponent,
-      cssClass: 'my-custom-class',
+      component: NewEmployeePage,
+      cssClass: 'new-employee-class',
       event: ev,
-      translucent: true
+      translucent: true,
+      componentProps: {
+        id: id
+      }
     });
     await popover.present();
+
+    popover.onDidDismiss().then(() => {
+      console.log("did dismiss");
+      this.getEmployees()
+      
+    })
   
     const { role } = await popover.onDidDismiss();
     console.log('onDidDismiss resolved with role', role);
+    
   }
 
   editOffice(){
@@ -96,76 +113,105 @@ export class ViewPagePage implements OnInit {
     }
   }
 
-  getItems(ev) {
-    // Reset items back to all of the items
-    // this.initializeItems();
-    // set val to the value of the ev target
+
+  getItems(ev) {    
+    this.initializeItems()
+
     var val = ev.target.value;
+
     // if the value is an empty string don't filter the items
     if (val && val.trim() != "") {
-      this.searchItems = this.searchItems
+      this.searchItems = this.searchItems.filter(item => {
+        return item.name.concat(' ', item.surname).toLowerCase().indexOf(val.toLowerCase()) > -1
+      })
+      console.log(this.searchItems);
+      
     }
   }
 
-  // addEmployee(){
-  //   let newEmployee =  []
-  //   newEmployee = this.navigationExtras["employees"]
-  //   let data = {
-  //     id: this.navigationExtras["id"],
-  //     name: this.officeName,
-  //     tel: this.officePhoneNumber,
-  //     email: this.officeEmail,
-  //     capacity: this.officeCapacity,
-  //     address: this.officeAddress,
-  //     isCollapsed: true,
-  //     employees : newEmployee
-  //   }
+  initializeItems(){
+    this.searchItems = this.navigationExtras["employees"]
+  }
 
-  //   this.dbService.update(this.navigationExtras["id"], data)
-  // }
 
   goBack(){
     this.router.navigate(["../home"])
   }
 
-  addEmployee(){
+  ionViewDidEnter(){
+    console.log("did enter");
+  }
 
-    let employee = {
-      name: "",
-      surname: "",
-      avatar: ""
+  employeeOptions(data){
+    this.currentEmpData = data    
+    if (!this.employeeOptionsPopUp) {
+      this.employeeOptionsPopUp = true
+    }
+  }
+
+  editStaffMember(ev:any){
+    this.presentEditEmployeePopOver(ev);
+  }
+
+  async presentEditEmployeePopOver(ev: any) {
+    this.employeeOptionsPopUp = false
+    let id = this.id
+    let data = this.currentEmpData
+    const popover = await this.popoverController.create({
+      component: EditEmployeePage,
+      cssClass: 'edit-employee-class',
+      event: ev,
+      translucent: true,
+      componentProps: {
+        data: data,
+        officeId: id
+      }
+    });
+    await popover.present();
+
+    popover.onDidDismiss().then(() => {
+      console.log("did dismiss");
+      this.getEmployees()
+      
+    })
+  
+    const { role } = await popover.onDidDismiss();
+    console.log('onDidDismiss resolved with role', role);
+    
+  }
+
+  cancel(){
+    this.employeeOptionsPopUp = false
+  }
+
+  deleteStaffMember(){    
+    this.dbService.removeEmployee(this.id, this.currentEmpData)
+    this.employeeOptionsPopUp = false
+    this.getEmployees()
+    this.empDeleteCheck = false
+
+  }
+
+  areYouSure(){
+    if (this.employeeOptions){
+      this.employeeOptionsPopUp = false
     }
 
-    console.log(this.isSlideOpen);
-    this.isSlideOpen = true
-
-  
-
+    if (!this.empDeleteCheck){
+      this.empDeleteCheck = true
+    }
 
   }
-  eh() {
-    this.isSlideOpen = false
+
+  keepMember(){
+    if (this.empDeleteCheck){
+      this.empDeleteCheck = false
+    }
   }
 
-  // async chooseeAvatar(){
-  //   const addEmployeePopUp = await this.alertController.create({
-  //     header: "New Staff Member",
-  //     message: "<img src='assets/avatarIcons/1.png' /> <img src='assets/avatarIcons/1.png' />",
-  //     animated: true,
-     
-  //       buttons: [{
-  //         text: "NEXT",
-  //         handler: (alertData) => {
-  //           console.log(alertData.name);
-  //           console.log(alertData.surname);
-            
-  //         }
-  //       }]
-
-        
-  //   })
-
-  //   await addEmployeePopUp.present()
-  // }
+  prevPopUp(){
+    this.empDeleteCheck = false
+    this.employeeOptionsPopUp = true
+  }
 
 }

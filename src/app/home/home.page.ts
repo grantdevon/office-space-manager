@@ -39,8 +39,6 @@ export class HomePage {
         items.push(this.data[i]["data"])
           this.searchItems = items
       }
-      console.log(items)
-
     })
   }
 
@@ -60,7 +58,6 @@ export class HomePage {
   }
 
   viewOffice(data){
-    console.log(data)
     let navigationExtras: NavigationExtras = {
       state: {
         data
