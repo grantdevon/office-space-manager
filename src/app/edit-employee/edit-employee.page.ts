@@ -87,8 +87,4 @@ export class EditEmployeePage implements OnInit {
     this.slides.slidePrev()
   }
 
-  // generateEmployeeID(){
-  //   return '_' + Math.random().toString(36).substring(2,9)
-  // }
-
 }

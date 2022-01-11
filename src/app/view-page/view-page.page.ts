@@ -70,12 +70,11 @@ export class ViewPagePage implements OnInit {
     
   }
 
-  async presentPopover(ev: any, id) {
-    id = this.id
+  async presentPopover() {
+    let id = this.id
     const popover = await this.popoverController.create({
       component: NewEmployeePage,
       cssClass: 'new-employee-class',
-      event: ev,
       translucent: true,
       componentProps: {
         id: id
@@ -147,18 +146,17 @@ export class ViewPagePage implements OnInit {
     }
   }
 
-  editStaffMember(ev:any){
-    this.presentEditEmployeePopOver(ev);
+  editStaffMember(){
+    this.presentEditEmployeePopOver();
   }
 
-  async presentEditEmployeePopOver(ev: any) {
+  async presentEditEmployeePopOver() {
     this.employeeOptionsPopUp = false
     let id = this.id
     let data = this.currentEmpData
     const popover = await this.popoverController.create({
       component: EditEmployeePage,
       cssClass: 'edit-employee-class',
-      event: ev,
       translucent: true,
       componentProps: {
         data: data,
