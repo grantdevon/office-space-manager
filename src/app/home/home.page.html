@@ -17,7 +17,7 @@
       <ion-list>
         <ion-item (click)="viewOffice(office)">
           <ion-icon name="people-outline"></ion-icon>
-          <ion-label style="padding-left: 10px;">Staff Members in Office</ion-label>
+          <ion-label style="padding-left: 10px;">{{office.employees.length}} Staff Members in Office</ion-label>
         </ion-item>
         <ion-item lines="none">
           <ion-card-subtitle >More Info</ion-card-subtitle>

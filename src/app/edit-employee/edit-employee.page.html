@@ -51,7 +51,8 @@
         <ion-row>
           <ion-item lines="none">
             <ion-col *ngFor="let av of avatars">
-              <img [src]="'../assets/avatarIcons/' + av" (click)="selectedAvatar(av)" />
+              <img *ngIf="av !== avatar"[src]="'../assets/avatarIcons/' + av" (click)="selectedAvatar(av)" />
+              <img *ngIf="av === avatar" [src]="'../assets/avatarIcons/' + av" (click)="selectedAvatar(av)" style="border: 2px; border-color: black; border-style: solid; border-radius: 35%;"/>
             </ion-col>
           </ion-item>
           
